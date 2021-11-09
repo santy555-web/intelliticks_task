@@ -1,0 +1,88 @@
+<div class="navbar">
+  <div class="left_side">Property Management System</div>
+  <div class="right_side"><i class="far fa-user-circle"></i></div>
+</div>
+<main class="main">
+  <div class="container">
+    <form [formGroup]="managementForm" (ngSubmit)="OnSubmitManagementForm()">
+      <div class="form-wrapper">
+        <input placeholder="Enter Name Here.." formControlName="name" />
+        <div
+          *ngIf="
+            !managementForm.get('name').valid &&
+            !managementForm.get('name').pristine
+          "
+          class="text-red"
+        >
+          <p *ngIf="managementForm.get('name').errors['required']">
+            Pleases Enter Name
+          </p>
+        </div>
+        <input
+          placeholder="Enter Description here.."
+          formControlName="description"
+        />
+        <div
+          *ngIf="
+            !managementForm.get('description').valid &&
+            !managementForm.get('description').pristine
+          "
+          class="text-red"
+        >
+          <p *ngIf="managementForm.get('description').errors['required']">
+            Please Enter Description
+          </p>
+        </div>
+        <input
+          type="number"
+          placeholder="Enter Size here in sqft.."
+          formControlName="size"
+        />
+        <div
+          *ngIf="
+            !managementForm.get('size').valid &&
+            !managementForm.get('size').pristine
+          "
+          class="text-red"
+        >
+          <p *ngIf="managementForm.get('size').errors['required']">
+            Please Enter Size In sqft
+          </p>
+        </div>
+      </div>
+      <div class="btn-wrapper">
+        <button
+          type="submit"
+          [disabled]="!managementForm.valid"
+          [ngClass]="!managementForm.valid ? 'btn-disabled' : 'btn-normal'"
+        >
+          Add Property
+        </button>
+      </div>
+    </form>
+
+    <table>
+      <h3 class="temp_data">Temp Data</h3>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Size</th>
+        <th>Action</th>
+      </tr>
+      <tr *ngFor="let item of formData; index as i">
+        <td>{{ item.name }}</td>
+        <td>{{ item.description }}</td>
+        <td>{{ item.size }} &nbsp;sqft</td>
+        <td>
+          <button (click)="OnDelete(i)">
+            <i class="far fa-trash-alt text-red"></i>
+          </button>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div class="container-data">
+  <h3>Data is getting from Airtable</h3>
+  <div>{{onlineData | json}}</div>
+  </div>
+</main>
